@@ -1,6 +1,6 @@
 # 构建 VitePress 站点并将其部署到 GitHub Pages 的示例工作流程
 #
-name: Deploy VitePress site to Pages
+name: Deploy to User Pages
 
 on:
   # 在针对 `main` 分支的推送上运行。如果你
@@ -43,7 +43,7 @@ jobs:
         run: npm run docs:build # 或 pnpm docs:build / yarn docs:build / bun run docs:build
 
   # 部署工作
-      - name: Deploy
+      - name: Deploy to pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           # github_token: ${{ secrets.GAYHUB_TOKEN }} # 该项适用于发布到源码相同repo的情况，不能用于发布到其他repo

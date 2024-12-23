@@ -1,0 +1,52 @@
+name: Pages-Repository
+on:
+  push:
+    branches:
+    - main #触发的分支 
+
+jobs:
+  main-to-repo-pages:
+    runs-on: ubuntu-latest
+        
+    steps:                          
+    - name: checkout main
+      uses: actions/checkout@v4
+      with:
+        submodules: true  # Fetch Hugo themes (true OR recursive)
+        fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+      
+    - name: Check ACTION_REPO
+      run: |
+        ACTION_REPO=$(echo ${{ github.repository }} | awk -F '/' '{print $2}')
+        if [[ $ACTION_REPO == '${{ github.actor }}.github.io' ]]; then
+          echo "Action in Page repository, do nothing."
+          echo "PAGE_REPO=true" >>$GITHUB_ENV
+        else
+          echo -e "action in pages repo, need do nothing"
+          exit 2
+        fi
+
+    - name: Install nodejs
+      if: ${{ env.PAGE_REPO != 'true' }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+      
+    - name: Install dependencies and build
+      if: ${{ env.PAGE_REPO != 'true' }}
+      run: |
+        npm install
+        npm run docs:build
+                
+    - name: Deploy to pages
+      if: ${{ env.PAGE_REPO != 'true' }}
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        # github_token: ${{ secrets.GAYHUB_TOKEN }} # 该项适用于发布到源码相同repo的情况，不能用于发布到其他repo
+        personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }}	# 发布到其他repo需要提供上面生成的personal access token
+        publish_dir: docs/.vitepress/dist	# 注意这里指的是要发布哪个文件夹的内容，而不是指发布到目的仓库的什么位置
+        publish_branch: pages-vitepress	# 发布到哪个branch
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        force_orphan: true # make your publish branch with only the latest commit                
