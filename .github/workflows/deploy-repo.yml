@@ -22,8 +22,6 @@ jobs:
         if [[ $ACTION_REPO == '${{ github.actor }}.github.io' ]]; then
           echo "Action in Page repository, do nothing."
           echo "PAGE_REPO=true" >>$GITHUB_ENV
-        else
-          echo -e "action in pages repo, need do nothing"
           exit 2
         fi
 
