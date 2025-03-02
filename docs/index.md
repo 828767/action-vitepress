@@ -7,7 +7,7 @@ hero:
   text: "A VitePress Site"
   tagline: My great project tagline
   actions:
-    - theme: brand
+    - theme: brand #按钮的颜色主题，默认为 `brand`
       text: Markdown Examples
       link: /Examples/markdown-examples
     - theme: alt
