@@ -48,7 +48,17 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: '导览', link: '/zh/guide' }
+      { text: '导览', link: '/zh/guide' },
+      {
+        text: '其他框架示例',
+        items: [ //下拉菜单
+          { text: 'Hexo', link: 'https://yiwangmeng.cn/action-hexo/' },
+          { text: 'Hugo', link: 'https://yiwangmeng.cn/action-hugo/' },
+          { text: 'Docsify', link: 'https://yiwangmeng.cn/action-docsify/' },
+          { text: 'WordPress', link: 'https://www.yiwangmeng.com/' },
+          { text: 'GitBook', link: 'https://yiwangmeng.cn/action-gitbook/' },
+        ]
+      }
     ],
 
     // sidebar: [
